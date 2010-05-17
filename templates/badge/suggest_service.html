@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{#
+templates/badge/suggest_service.html
+
+Django templates and HTML for badger!
+
+This file is part of Badger!.
+
+Badger! is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Badger! is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Badger!.  If not, see <http://www.gnu.org/licenses/>.
+#}
+
+{% block title %}{% block header %}Suggest a service!{% endblock %}{% endblock %}
+
+{% block content %}
+<form method="post">
+    <table>
+        <tr class="odd">
+            <th><label for="name">Service name:</label></th>
+            <td><input type="text" maxlength="200" name="name" /><br />
+                Just a short name for the service like 'Twitter' or 'Facebook'</td>
+        </tr>
+        <tr class="even">
+            <th><label for="description">Description:</label></th>
+            <td><textarea rows="6" cols="30" name="description"></textarea><br />
+                Tell us a little about the site!  What does it do?  How does it work?</td>
+        </tr>
+        <tr class="odd">
+            <th><label for="url">URL:</label></th>
+            <td><input type="text" name="url" /><br />
+                The URL to the front-page of the site</td>
+        </tr>
+        <tr class="even">
+            <th><label for="egurl">Example URL:</label></th>
+            <td><input type="text" name="egurl" /><br />
+                Give us an example URL to show us how to create URLs with a given identifier.  Use the word 'example' to tell us where to put the user's identifier; for instance, with Twitter, you could give us <em>http://twitter.com/<u>example</u></em> and with LiveJournal you could give us <em>http://<u>example</u>.livejournal.com</em></td>
+        </tr>
+        <tr>
+            <td colspan="2"><input type="submit" value="Suggest away!" /></td>
+        </tr>
+    </table>
+</form>
+{% endblock %}

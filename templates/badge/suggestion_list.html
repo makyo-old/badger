@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{#
+templates/badge/suggestion_list.html
+
+Django templates and HTML for badger!
+
+This file is part of Badger!.
+
+Badger! is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Badger! is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Badger!.  If not, see <http://www.gnu.org/licenses/>.
+#}
+
+{% block title %}{% block header %}Suggestions!{% endblock %}{% endblock %}
+
+
+{% block content %}
+<ul>{% for service in services %}
+    <li class="{% cycle "odd" "even" %}"><strong><a href="{{ service.url }}"><img src="http://mjs-svc.com/badger/{{ service.icon }}" /> {{ service.name }}</a></strong>{% if service.category %} (<a href="/services/category/{{ service.category.slug }}/">{{ service.category.name }}</a>){% endif %}<br />
+    {{ service.description|safe}}<br />
+    {% if service.adult %}
+    <span style="color: #900; font-size: 75%">Here be dragons!  This site may contain adult material, though that material may require logging in to see!</span><br />
+    {% endif %}
+    <strong><a href="/admin/badge/service/{{ service.id }}/">Edit!</a></strong></li>
+{% endfor %}</ul>
+
+{% endblock %}

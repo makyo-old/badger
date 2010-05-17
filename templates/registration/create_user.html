@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{#
+templates/registration/create_user.html
+
+Django templates and HTML for badger!
+
+This file is part of Badger!.
+
+Badger! is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Badger! is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Badger!.  If not, see <http://www.gnu.org/licenses/>.
+#}
+
+{% block title %}Join!{% endblock %}
+
+{% block header %}Join us!{% endblock %}
+
+{% block content %}
+<div class="warning"><strong>Disclaimer!</strong> By joining, you will be able to see services and portions of badges marked as adult!  Nothing adult will be shown on this site, but those services may link to adult content!  You've been warned!</div>
+<form method="post" action="/accounts/create/">
+    <table>
+        <tr>
+            <th><abbr title="Letters, numbers, and underscore only!"><label for="username">Username:</label></abbr></th>
+            <td><input type="text" name="username" /></td>
+        </tr>
+        <tr>
+            <th><label for="password">Password:</label></th>
+            <td><input type="password" name="password" /></td>
+        </tr>
+        <tr>
+            <th><label for="email">Email:</label></th>
+            <td><input type="text" name="email" /></td>
+        </tr>
+        <tr>
+            <td colspan="2"><input type="submit" value="Join!" /></td>
+        </tr>
+    </table>
+</form>
+{%endblock %}

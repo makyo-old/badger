@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+    <head>
+        <title>Badger! | {% block title %}{% endblock %}</title>
+        <script type="text/javascript" src="http://mjs-svc.com/js/jquery-1.4.2.min.js"> </script>
+        <link rel="shortcut icon" href="http://mjs-svc.com/badger/badger-icon.png" type="image/x-png" />
+        <link rel="stylesheet" type="text/css" href="http://mjs-svc.com/badger/base.css" />
+        <link rel="stylesheet" type="text/css" href="http://mjs-svc.com/badger/badge.css" />
+        <!-- License: {# templates/base.html #}
+
+        Django templates and HTML for Badger!
+
+        This file is part of Badger!.
+
+        Badger! is free software: you can redistribute it and/or modify
+        it under the terms of the GNU General Public License as published by
+        the Free Software Foundation, either version 3 of the License, or
+        (at your option) any later version.
+
+        Badger! is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+        GNU General Public License for more details.
+
+        You should have received a copy of the GNU General Public License
+        along with Badger!.  If not, see <http://www.gnu.org/licenses/>.
+
+        -->
+    </head>
+    <body onload="$('.hide').hide();">
+        <div id="container">
+            <div id="skip-link"><a href="#content">Skip to content</a></div>
+            <div id="header">
+                <img src="http://mjs-svc.com/badger/badger-logo.png" />
+            </div>
+            <div id="navigation">
+                <ul>
+                    <li><a href="/">Home!</a></li>
+                    <li><a href="/services/categories/">Categories!</a></li>
+                    <li><a href="/services/">All Services!</a></li>
+                    {% if user.is_authenticated %}<li><a href="/badger/{{ user.username }}/">Your badge!</a></li>{% endif %}
+                    <li><a href="/help/">Help!</a></li>
+                    <li><a href="/about/">About!</a></li>
+                </ul>
+                <!-- AdSense -->
+                <script type="text/javascript"><!--
+                    google_ad_client = "pub-8219378032338846";
+                    /* 120x600, created 3/21/10 */
+                    google_ad_slot = "0744223866";
+                    google_ad_width = 120;
+                    google_ad_height = 600;
+                    //-->
+                </script>
+                <script type="text/javascript"
+                    src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+                </script>
+                <!-- /AdSense -->
+            </div>
+            <div id="usercontrol">
+                <ul>
+                    {% if not user.is_authenticated %}<li><a href="/accounts/login/">Log in!</a></li>
+                    <li><a href="/accounts/create/">Join!</a></li>{% else %}<li><a href="/accounts/logout/">Log out!</a></li>
+                    <li><a href="/accounts/profile/">Profile!</a></li>
+                    {% if user.is_staff or user.is_superuser %}<li><a href="/admin/">Site administration</a></li>
+                    <li><a href="/services/suggestions/">Pending service suggestions</a></li>{% endif %}
+                    <div style="width: 90px; margin: auto"><span class="badgerjax-{{ user.username }}"></span></div>
+                    <script type="text/javascript" src="/b/{{ user.username }}/"></script>
+                    {% endif %}
+                    <li style="text-align: center;font-size: 75%">{{ count }} badgers so far!</span></li>
+                </ul>
+            </div>
+            <div id="content">
+                <h1><a name="content"> </a>{% block header %}{% endblock %}</h1>
+                {% if messages %}{% for message in messages %}
+                {{ message|safe }}
+                {% endfor %}{% endif %}
+                <!-- dynamically generated content -->
+{% block content %}{% endblock %}
+                <!-- /dynamically generated content -->
+            </div>
+            <p id="copyright"><a target="_blank" href="http://creativecommons.org/licenses/by-nd/3.0"><img src="http://media.mjs-publishing.com/by-nd.png" alt="(CC) BY-ND 3.0" /></a><br />
+            An <a target="_blank" href="http://mjs-svc.com">MJS Services</a> project | Powered by <a target="_blank" href="http://djangoproject.com">Django</a></p>
+        </div>
+    </body>
+</html>
+<!-- 
+vim: ft=htmldjango 
+-->

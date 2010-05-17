@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{#
+templates/registration/login.html
+
+Django templates and HTML for badger!
+
+This file is part of Badger!.
+
+Badger! is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Badger! is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Badger!.  If not, see <http://www.gnu.org/licenses/>.
+#}
+
+{% block title %}Log in!{% endblock %}
+
+{% block header %}Log in!{% endblock %}
+
+{% block content %}
+{% if form.errors %}<div class="failure">Username and password didn't match any of our badgers!  Try again?</div>{% endif %}
+<form method="POST" action="/accounts/login/">
+<table>
+    <tr>
+        <th>{{ form.username.label_tag }}</th>
+        <td>{{ form.username }}</td>
+    </tr>
+    <tr>
+        <th>{{ form.password.label_tag }}</th>
+        <td>{{ form.password }}</td>
+    </tr>
+    <tr>
+        <td rowspan="2"><input type="submit" value="Log in!" /></td>
+    </tr>
+</table>
+<input type="hidden" name="next" value="{{ next }}" />
+</form>
+<p><a href="/accounts/password/reset/">Help!  I forgot my password!</a></p>
+{% endblock %}

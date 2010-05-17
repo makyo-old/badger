@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{#
+templates/badge/services_list.html
+
+Django templates and HTML for badger!
+
+This file is part of Badger!.
+
+Badger! is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Badger! is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Badger!.  If not, see <http://www.gnu.org/licenses/>.
+#}
+
+{% block title %}{% block header %}Services{% if category %} in {{ category.name }}{% endif %}!{% endblock %}{% endblock %}
+
+
+{% block content %}
+<ul>{% for service in services %}
+    {% if service.adult and not user.is_authenticated %}
+    <li class="{% cycle "odd" "even" %}">&nbsp;</li>
+    {% else %}
+    <li class="{% cycle "odd" "even" %}"><strong><a href="{{ service.url }}"><img src="http://media.mjs-svc.com/badger/{{ service.icon }}" /> {{ service.name }}</a></strong>{% if service.category %} (<a href="/services/category/{{ service.category.slug }}/">{{ service.category.name }}</a>){% endif %}<br />
+    {{ service.description|safe}}<br />
+    {% if service.adult %}
+    <span style="color: #900; font-size: 75%">Here be dragons!  This site may contain adult material, though that material may require logging in to see!</span><br />
+    {% endif %}
+    <a href="javascript:" onclick="$('.{{ service.slug }}').toggle('slow')">Add!</a><br />
+    <form action="/add/" method="get">
+        <span class="hide {{ service.slug }}">
+            <strong><label for="identifier"><abbr title="Usually part of the URL, like 'example' in {{ service.id_url_example }}">Identifier</abbr> for {{ service.name }}:</label></strong>
+            <input type="text" name="identifier" />
+            <input type="submit" value="Add badgelet!" />
+        </span>
+        <input type="hidden" name="hidden" value="false" />
+        <input type="hidden" name="service" value="{{ service.slug }}" />
+    </form></li>
+    {% endif %}
+{% endfor %}</ul>
+{% if user.is_authenticated %}<div class="warning">Not seeing what you're looking for?  Feel free to <a href="/services/suggest/">suggest</a> a new service!</div>{% endif %}
+{% endblock %}

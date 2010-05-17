@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{#
+templates/badge/badge.html
+
+Django templates and HTML for badger!
+
+This file is part of Badger!.
+
+Badger! is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Badger! is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Badger!.  If not, see <http://www.gnu.org/licenses/>.
+#}
+
+{% block title %}{{ badger.username }}{% endblock %}
+
+{% block header %}{{ badger.username }}{% endblock %}
+
+{% block content %}
+<script type="text/javascript">
+function hideBadgeSection(s) {
+    $(s).parent('.badge-section').children('.hideme').toggle('fast');
+    $(s).text() == "Hide" ? $(s).text("Show") : $(s).text("Hide");
+};
+</script>
+
+<div class="badge-section">
+<a id="bs1" class="hidelink" href="javascript:hideBadgeSection('#bs1')">Hide</a>
+<div class="hideme">
+<div style="width: 90px;margin: auto"><span class="badgerjax-{{ badger.username }}"></span></div>
+<script type="text/javascript" src="/b/{{ badger.username }}/"></script>
+</div>
+</div>
+{% ifequal badger user %}
+<h2>Manage your badge!</h2>
+{% endifequal %}
+<div class="badge-section">
+<a id="bs2" class="hidelink" href="javascript:hideBadgeSection('#bs2')">Hide</a>
+<div class="hideme">
+<ul>{% for badgelet in badger.badgelet_set.all %}
+    <li class="{% cycle "odd" "even" %}"><strong><a href="{{ badgelet.get_url }}"><img src="http://media.mjs-svc.com/badger/{{ badgelet.service.icon }}"> {{ badgelet.get_display }}</a></strong>
+    {% ifequal badger user %} - 
+    [ <a href="javascript:" onclick="$('.bu{{ badgelet.id }}').hide();$('.bd{{ badgelet.id }}').toggle('slow')">Remove!</a> ] 
+    [ <a href="javascript:" onclick="$('.bd{{ badgelet.id }}').hide();$('.bu{{ badgelet.id }}').toggle('slow')">Edit!</a> ] 
+    [ Move <a href="/reweight/{{ badgelet.id }}/{{ badgelet.weight|add:"-1" }}/" title="up" style="text-decoration: none">&uarr;</a> 
+    | <a href="/reweight/{{ badgelet.id }}/{{ badgelet.weight|add:"1" }}/" title="down" style="text-decoration: none">&darr;</a> <!--({{ badgelet.weight|add:"1" }})-->]<br />
+    <form action="/remove/{{ badgelet.id }}/" method="get">
+        <span class="hide bd{{ badgelet.id }} failure">
+            <strong>No turnin' back from here!  You sure?</strong><br />
+            <input type="submit" value="Delete it!" />
+            <input type="hidden" name="confirm" value="yes" />
+        </span>
+    </form>
+    <form action="/update/{{ badgelet.id }}/" method="get">
+        <span class="hide bu{{ badgelet.id }}">
+            <strong><label for="identifier"><abbr title="Usually part of the URL, like 'example' in {{ badgelet.service.id_url_example }}">Identifier</abbr> for {{ badgelet.service.name }}:</label></strong>
+            <input type="text" name="identifier" value="{{ badgelet.identifier }}" />
+            <input type="submit" value="Add badgelet!" />
+        </span>
+        <input type="hidden" name="hidden" value="false" />
+    </form>{% endifequal %}</li>
+{% endfor %}</ul>
+</div>
+</div>
+{% ifequal badger user %}
+<h3>Put it on your stuff!</h3>
+<div class="badge-section">
+<a id="bs3" class="hidelink" href="javascript:hideBadgeSection('#bs3')">Hide</a>
+<div class="hideme">
+<p><strong>Where are you going to put it?</strong> 
+<select name="impl-select" id="impl-select">
+    <option selected="selected" value="dynamic" title="No reason given">----------</option>
+    {% for i in impl %}
+    <option id="{{ i.id }}" value="{{ i.support }}" title="{{ i.notes }}">{{ i }}</option>
+    {% endfor %}
+</select></p>
+
+<p><strong class="bdynamic">Dynamic scripting</strong><br class="hide bdynamic" />
+<textarea class="bdynamic" rows="6" cols="60" onclick="this.select()">
+<link rel="stylesheet" type="text/css" href="http://media.mjs-svc.com/badger/badge.css" />
+<span class="badgerjax-{{ badger.username }}"></span>
+<script type="text/javascript" src="http://mjs-svc.com/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="http://badger.mjs-svc.com/b/{{ badger.username }}/"></script>
+</textarea><br class="hide bdynamic" />
+
+<strong class="hide bstatic">Static HTML</strong><br class="hide bstatic" />
+<textarea class="hide bstatic" rows="6" cols="60" onclick="this.select()">
+&lt;!-- Begin Badger! {{ badger.username }} --&gt;
+<div id="bi-{{ badger.username }}" style="border:2px solid #aaa;background-color:#fff;width:88px;-moz-border-radius:4px;-webkit-border-radius:4px;padding:2px;margin-top:2px;margin-bottom:2px;"><a target="_blank" href="http://badger.mjs-svc.com/badger/{{ badger.username }}" style="text-decoration:none;color:#444;"><img src="http://media.mjs-svc.com/badger/badger-icon.png" style="border:none;" />{{ badger.username }}</a>
+<table style="border:3px double #999;background-color:#eee;position:relative;top:0;left:0">{% for badgelet in badger.badgelet_set.all %}{% cycle "<tr>" "" "" "" %}{% if badgelet.hidden or badgelet.service.adult %}<td>&nbsp;</td>
+{% else %}<td><a target="_blank" href="{{ badgelet.get_url }}" title="{{ badgelet.get_display }}" style="text-decoration:none;"><img src="http://media.mjs-svc.com/badger/{{ badgelet.service.icon }}" style="border:none;" /></a></td>{% endif %}
+{% cycle "" "" "" "</tr>" %}{% endfor %}{% if not badger.badgelet_set.count|divisibleby:"4" %}</tr>{% endif %}</table><p style="font-size:10px;padding:0px;margin:0px;text-align:right;border:none;"><a target="_blank" href="http://badger.mjs-svc.com/about/" style="text-decoration:none;color:#444;">What's this?</a></p></div>
+&lt;!-- End Badger! {{ badger.username }} --&gt;
+</textarea><br class="hide bstatic" />
+
+<strong class="hide blink">Simple link</strong><br class="hide blink" />
+<textarea class="hide blink" rows="6" cols="60" onclick="this.select()">
+Check to see where else you can find me on <a target="_blank" href="http://badger.mjs-svc.com/badger/{{ badger.username }}/">Badger!</a>
+</textarea><br class="hide blink" />
+
+<strong class="hide bnone">None (text only)</strong><br class="hide bnone" />
+<textarea class="hide bnone" rows="6" cols="60" onclick="this.select()">
+Check where else you can find me on Badger! - http://badger.mjs-svc.com/badger/{{ badger.username }}/
+</textarea><br class="hide bnone" />
+
+<span style="display: block;font-size: 0.75em;margin-top: 0px; padding-top: 0px">[
+<a href="javascript:" onclick="$('.blink').hide();$('.bstatic').hide();$('.bdynamic').show();$('.bnone').hide()">Dynamic</a> |
+<a href="javascript:" onclick="$('.blink').hide();$('.bstatic').show();$('.bdynamic').hide();$('.bnone').hide()">Static</a> |
+<a href="javascript:" onclick="$('.blink').show();$('.bstatic').hide();$('.bdynamic').hide();$('.bnone').hide()">Link</a> | 
+<a href="javascript:" onclick="$('.blink').hide();$('.bstatic').hide();$('.bdynamic').hide();$('.bnone').show()">None (text only)</a> 
+]</span>
+</p>
+
+<script type="text/javascript">
+    $('#impl-select').change(function() {
+        $('.bdynamic').hide();
+        $('.bstatic').hide();
+        $('.blink').hide();
+        $('.bnone').hide();
+        $('.b' + $('#impl-select option:selected').attr('value')).show();
+        $('#reasonwhy').text($('#impl-select option:selected').attr('title'));
+    });
+</script>
+<p>
+<a href="javascript:" onclick="$('#arr').text($('#arr').text()=='&rarr;'?'&darr;':'&rarr;');$('#explain').slideToggle();"><strong>What does this all mean?</strong></a> <span id="arr">&rarr;</span><br />
+<span class="hide" id="explain">Some sites do not allow you to add scripts or stylesheets to their pages for security reasons, so if posting the script version doesn't work, you may try posting the HTML version.  The downside of this is that it won't be updated automatically when you change your badge here like the script one would, you'll have to re-copypasta.  Failing even that, you can always just copy the URL to this page and link to that!  Don't worry, no one will be able to edit your badge, just see it!<br />
+<br />Specifically: <span id="reasonwhy">No reason given</span></span>
+</p>
+</div>
+</div>
+{% endifequal %}
+{% endblock %}
