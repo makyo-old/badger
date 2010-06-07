@@ -71,7 +71,7 @@ MEDIA_URL = 'http://media.mjs-svc.com/badger/'
 ADMIN_MEDIA_PREFIX = 'http://media.mjs-svc.com/admin/'
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'e-wqx*51ldt*9r3di#)olt@)p=@!tj9jbw-u)stqbzg8yvy^v_'
+SECRET_KEY = 'e-wqx*51ldt*9r3di#)olt@)p=@!tj9jbw-u)gjeklm8yvy^v_'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -93,7 +93,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    '/home/makyo/badger.mjs-svc.com/badger/templates'
+    '/home/makyo/badgerific.com/badger/templates'
 )
 
 INSTALLED_APPS = (
@@ -102,7 +102,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.admin',
-    'django.contrib.admindocs',
     'django.contrib.flatpages',
     'badge'
 )

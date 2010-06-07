@@ -4,7 +4,11 @@
 <html>
     <head>
         <title>Badger! | {% block title %}{% endblock %}</title>
-        <script type="text/javascript" src="http://mjs-svc.com/js/jquery-1.4.2.min.js"> </script>
+        <script src="http://www.google.com/jsapi"></script>
+        <script type="text/javascript">
+            google.load("jquery", "1.4.2");
+            google.load("jqueryui", "1.8.1");
+        </script>
         <link rel="shortcut icon" href="http://mjs-svc.com/badger/badger-icon.png" type="image/x-png" />
         <link rel="stylesheet" type="text/css" href="http://mjs-svc.com/badger/base.css" />
         <link rel="stylesheet" type="text/css" href="http://mjs-svc.com/badger/badge.css" />

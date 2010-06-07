@@ -40,6 +40,7 @@ urlpatterns = patterns('',
         (r'^remove/(?P<badgelet>\d+)/$', 'badge.views.remove_badgelet'),
         (r'^update/(?P<badgelet>\d+)/$', 'badge.views.update_badgelet'),
         (r'^reweight/(?P<badgelet>\d+)(/(?P<weight>-?\d+))?/$', 'badge.views.reweight_badgelet'),
+        (r'^sort/(?P<badgelets>[^/]+)/$', 'badge.views.sort_badgelets'),
 
         # user management
         (r'^accounts/login/$', 'django.contrib.auth.views.login'),

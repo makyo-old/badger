@@ -175,13 +175,13 @@ def reweight_badgelet(request, badgelet, weight = None):
 
 
     # shift weights above or below
-    if (blet.weight - weight > 0):
-        for b in request.user.badgelet_set.filter(weight__lt = weight - 1):
-            b.weight -= 1
-            b.save()
-    elif (blet.weight - weight < 0):
-        for b in request.user.badgelet_set.filter(weight__gt = blet.weight + 1):
+    if blet.weight - weight > 0:
+        for b in request.user.badgelet_set.filter(weight__gte = weight - 1):
             b.weight += 1
+            b.save()
+    elif blet.weight - weight < 0:
+        for b in request.user.badgelet_set.filter(weight__lte = weight + 1):
+            b.weight -= 1
             b.save()
 
     # set the weight
@@ -198,3 +198,15 @@ def reweight_badgelet(request, badgelet, weight = None):
     # set a message and return
     request.user.message_set.create(message = '<div class="success">Badgelet moved!</div>')
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+@login_required
+def sort_badgelets(request, badgelets):
+    i = 0
+    for b in badgelets.split(','):
+        badgelet = Badgelet.objects.get(id = b)
+        badgelet.weight = i
+        badgelet.save()
+        i += 1
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
