@@ -1,0 +1,49 @@
+/*
+templates/badge/badge_ajax_icons.html
+
+Django templates and HTML for Badger!
+
+This file is part of Badger!.
+
+Badger! is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Badger! is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Badger!.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+var jq = document.createElement('script');
+jq.setAttribute('type', 'text/javascript');
+jq.setAttribute('src', 'http://mjs-svc.com/js/jquery-1.4.2.min.js');
+document.getElementsByTagName('head')[0].appendChild(jq);
+
+var css = document.createElement('link');
+css.setAttribute('rel', 'stylesheet');
+css.setAttribute('type', 'text/css');
+css.setAttribute('href', 'http://media.mjs-svc.com/badger/badge.css');
+jQuery('head').append(css);
+
+jQuery('.badgerjax-{{ badger.username }}').html(
+'<div id="bi-{{ badger.username }}" class="badgerific-icons">'+
+'    <a target="_blank" href="http://badgerific.com/badger/{{ badger.username }}"><img src="http://media.mjs-svc.com/badger/badger-icon.png" />{{ badger.username }}</a>'+
+'    <table>'+
+'        {% for badgelet in badger.badgelet_set.all %}{% cycle "<tr>" "" "" "" %}'+
+             {% if badgelet.hidden %} 
+'            <td>&nbsp;</td>'+
+             {% else %}
+             {% if badgelet.service.adult and not user.is_authenticated %}
+'            <td>&nbsp;</td>'+
+             {% else %}
+'            <td><a target="_blank" href="{{ badgelet.get_url }}" title="{{ badgelet.get_display }}"><img src="http://media.mjs-svc.com/badger/{{ badgelet.service.icon }}" /></a></td>'+
+             {% endif %} {% endif %}
+'        {% cycle "" "" "" "</tr>" %}{% endfor %}'+
+'        {% if not badger.badgelet_set.count|divisibleby:"4" %}</tr>{% endif %}'+
+'    </table>'+
+'<p><a target="_blank" href="http://badgerific.com/about/">What\'s this?</a></p></div>');
